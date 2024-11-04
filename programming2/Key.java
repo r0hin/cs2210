@@ -1,21 +1,27 @@
+// Key.java, Programming Assignment 2.
+// Holds a key with a label and type.
+
 public class Key implements Comparable<Key> {
   String label;
   int type;
 
+  // Creates a new key with the specified label and type.
   public Key(String theLabel, int theType) {
     label = theLabel.toLowerCase();
     type = theType;
   }
 
+  // Returns the label of the key.
   public String getLabel() {
     return label;
   }
 
+  // Compare labels lexicographically
   public int compareTo(Key other) {
-    // Compare labels lexicographically
     int labelComparison = this.label.compareTo(other.label);
     if (labelComparison != 0) {
-      return labelComparison; // If labels are different, return the comparison result
+      // If labels are different, return the comparison result
+      return labelComparison;
     }
 
     // If labels are equal, compare types

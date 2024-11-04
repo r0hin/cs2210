@@ -1,37 +1,50 @@
+// BinarySearchTree.java, Programming Assignment 2.
+// Implements a binary search tree.
+
 public class BinarySearchTree {
   BSTNode root;
 
+  // Creates a new binary search tree.
   public BinarySearchTree() {
     root = null;
   }
 
+  // Returns the root of the tree.
   public BSTNode getRoot() {
     return root;
   }
 
+  // Returns the node with the specified key.
   public BSTNode get(BSTNode r, Key k) {
     if (r == null) {
       return null;
     }
 
+    // If the key is found, return the node
     if (k.compareTo(r.getRecord().getKey()) == 0) {
       return r;
     }
 
     if (k.compareTo(r.getRecord().getKey()) < 0) {
+      // If the key is less than the current node's key, search the left subtree
       return get(r.getLeftChild(), k);
     } else {
+      // If the key is greater than the current node's key, search the right subtree
       return get(r.getRightChild(), k);
     }
   }
 
+  // Inserts a new record into the tree.
+  // I think it is possible to do this recursively too, but the iterative approach
+  // has the same time complexity O(h), where h is the height of the tree.
   public void insert(Record d) throws DictionaryException {
-    // If root is null, set root to the new node with the record
+    // If its the first node, make it the root
     if (root == null) {
       root = new BSTNode(d);
       return;
     }
 
+    // Create a new node
     BSTNode newNode = new BSTNode(d);
     BSTNode current = root;
     BSTNode parent = null;
@@ -41,9 +54,11 @@ public class BinarySearchTree {
       throw new DictionaryException("Key already exists");
     }
 
+    // Traverse the tree to find the correct position to insert the new node
     while (true) {
       parent = current;
       if (d.getKey().compareTo(current.getRecord().getKey()) < 0) {
+        // If the key is less than the current node's key, go left
         current = current.getLeftChild();
         if (current == null) {
           parent.setLeftChild(newNode);
@@ -51,6 +66,7 @@ public class BinarySearchTree {
           return;
         }
       } else {
+        // If the key is greater than the current node's key, go right
         current = current.getRightChild();
         if (current == null) {
           parent.setRightChild(newNode);
@@ -61,13 +77,17 @@ public class BinarySearchTree {
     }
   }
 
+  // Removes the node with the specified key from the tree.
   public void remove(BSTNode r, Key k) throws DictionaryException {
-    // If the tree is empty, throw an exception
     if (root == null) {
+      // If the tree is empty, throw an exception
       throw new DictionaryException("Cannot remove from an empty tree");
     }
 
+    // Find the node to be deleted
     BSTNode node = get(r, k);
+
+    // If the key is not found, throw an exception
     if (node == null) {
       throw new DictionaryException("Key not found");
     }
@@ -116,11 +136,17 @@ public class BinarySearchTree {
     }
   }
 
+  // Returns the next node in the in-order traversal of the tree.
   public BSTNode successor(BSTNode r, Key k) {
+    // Find the node with the specified key
     BSTNode node = get(r, k);
+
+    // If the key is not found, return null
     if (node == null)
       return null;
 
+    // If the node has a right child, the successor is the leftmost node in the
+    // right subtree
     if (node.getRightChild() != null) {
       BSTNode successor = node.getRightChild();
       while (successor.getLeftChild() != null) {
@@ -129,6 +155,8 @@ public class BinarySearchTree {
       return successor;
     }
 
+    // If the node has no right child, the successor is the lowest ancestor of the
+    // node
     BSTNode parent = node.getParent();
     while (parent != null && node == parent.getRightChild()) {
       node = parent;
@@ -137,11 +165,17 @@ public class BinarySearchTree {
     return parent;
   }
 
+  // Returns the previous node in the in-order traversal of the tree.
   public BSTNode predecessor(BSTNode r, Key k) {
+    // Find the node with the specified key
     BSTNode node = get(r, k);
+
+    // If the key is not found, return null
     if (node == null)
       return null;
 
+    // If the node has a left child, the predecessor is the rightmost node in the
+    // left subtree
     if (node.getLeftChild() != null) {
       BSTNode predecessor = node.getLeftChild();
       while (predecessor.getRightChild() != null) {
@@ -150,6 +184,8 @@ public class BinarySearchTree {
       return predecessor;
     }
 
+    // If the node has no left child, the predecessor is the lowest ancestor of the
+    // node
     BSTNode parent = node.getParent();
     while (parent != null && node == parent.getLeftChild()) {
       node = parent;
@@ -158,19 +194,25 @@ public class BinarySearchTree {
     return parent;
   }
 
+  // Returns the node with the largest key in the tree.
   public BSTNode largest(BSTNode r) {
     if (r == null)
       return null;
+
+    // Find the rightmost node, because it's a search tree
     BSTNode current = r;
     while (current.getRightChild() != null) {
       current = current.getRightChild();
     }
+
     return current;
   }
 
   public BSTNode smallest(BSTNode r) {
     if (r == null)
       return null;
+
+    // Find the leftmost node, because it's a search tree
     BSTNode current = r;
     while (current.getLeftChild() != null) {
       current = current.getLeftChild();
