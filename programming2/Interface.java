@@ -150,7 +150,10 @@ public class Interface {
     String label = tokenizer.nextToken().toLowerCase();
     Record record = dictionary.get(new Key(label, 1));
     if (record != null) {
+      // The tests are only recieving the first word of the definition, but the full
+      // definition is (supposed to be?) printed
       System.out.println(record.getDataItem());
+      // System.out.println(record.getDataItem().replaceAll(" ", ""));
     } else {
       System.out.println("The word " + label + " is not in the dictionary.");
     }
