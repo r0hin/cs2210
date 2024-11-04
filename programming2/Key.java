@@ -2,8 +2,8 @@
 // Holds a key with a label and type.
 
 public class Key implements Comparable<Key> {
-  String label;
-  int type;
+  private String label;
+  private int type;
 
   // Creates a new key with the specified label and type.
   public Key(String theLabel, int theType) {

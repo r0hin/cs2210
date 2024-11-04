@@ -2,7 +2,7 @@
 // Implements a binary search tree.
 
 public class BinarySearchTree {
-  BSTNode root;
+  private BSTNode root;
 
   // Creates a new binary search tree.
   public BinarySearchTree() {

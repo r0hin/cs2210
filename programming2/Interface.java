@@ -30,43 +30,50 @@ public class Interface {
     BufferedReader reader = new BufferedReader(new FileReader(filename));
     String label, line;
     // Read the input file line by line, given that each record is in two lines
-    while ((label = reader.readLine()) != null && (line = reader.readLine()) != null) {
-      label = label.toLowerCase();
-      int type;
-      String data;
 
-      if (line.startsWith("-")) {
-        // Define
-        type = 3;
-        data = line.substring(1);
-      } else if (line.startsWith("+")) {
-        // Translate
-        type = 4;
-        data = line.substring(1);
-      } else if (line.startsWith("*")) {
-        // Say
-        type = 5;
-        data = line.substring(1);
-      } else if (line.startsWith("/")) {
-        // Play
-        type = 2;
-        data = line.substring(1);
-      } else if (line.endsWith(".gif")) {
-        // Animate
-        type = 7;
-        data = line;
-      } else if (line.endsWith(".jpg")) {
-        // Show
-        type = 6;
-        data = line;
-      } else if (line.endsWith(".html")) {
-        // Browse
-        type = 8;
-        data = line;
-      } else {
-        // Define
-        type = 1;
-        data = line;
+    while ((label = reader.readLine()) != null && (line = reader.readLine()) != null) {
+      label = label.toLowerCase(); // Convert label to lowercase
+      int type;
+      String data = line.substring(1); // Exclude the first character if special symbol
+
+      // Determine the type and data based on the first character of the line
+      switch (line.charAt(0)) {
+        case '-':
+          type = 3;
+          data = line.substring(1);
+          break;
+        case '+':
+          type = 4;
+          data = line.substring(1);
+          break;
+        case '*':
+          type = 5;
+          data = line.substring(1);
+          break;
+        case '/':
+          type = 2;
+          data = line.substring(1);
+          break;
+        default:
+          // Check for file extensions to determine type
+          if (line.endsWith(".wav") || line.endsWith(".mid")) {
+            type = 3;
+            data = line;
+          } else if (line.endsWith(".jpg")) {
+            type = 6;
+            data = line;
+          } else if (line.endsWith(".gif")) {
+            type = 7;
+            data = line;
+          } else if (line.endsWith(".html")) {
+            type = 8;
+            data = line;
+          } else {
+            // Default case: assume type = 1 for definitions
+            type = 1;
+            data = line;
+          }
+          break;
       }
 
       // Add the record to the dictionary
@@ -326,7 +333,10 @@ public class Interface {
     }
     String label = tokenizer.nextToken().toLowerCase();
     int type = Integer.parseInt(tokenizer.nextToken());
-    String data = tokenizer.nextToken();
+
+    // Data should be the entire rest of the command
+    String data = tokenizer.nextToken("").trim();
+
     if (dictionary.get(new Key(label, type)) == null) {
       try {
         // Add the record to the dictionary
@@ -336,7 +346,6 @@ public class Interface {
         System.out.println("Error adding record: " + e.getMessage());
         return;
       }
-      System.out.println("Record added.");
     } else {
       System.out
           .println("A record with the given key (" + label + "," + type + ") is already in the ordered dictionary");

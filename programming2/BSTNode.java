@@ -2,10 +2,10 @@
 // Implements a binary search tree node.
 
 public class BSTNode {
-  Record data;
-  BSTNode leftChild;
-  BSTNode rightChild;
-  BSTNode parent;
+  private Record data;
+  private BSTNode leftChild;
+  private BSTNode rightChild;
+  private BSTNode parent;
 
   // Creates a new node with the specified record.
   public BSTNode(Record item) {

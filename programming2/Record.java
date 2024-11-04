@@ -2,8 +2,8 @@
 // Holds a record with a key and data item.
 
 public class Record {
-  Key key;
-  String data;
+  private Key key;
+  private String data;
 
   // Creates a new record with the specified key and data item.
   public Record(Key k, String theData) {

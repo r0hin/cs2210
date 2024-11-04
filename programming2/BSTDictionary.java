@@ -2,7 +2,7 @@
 // Implements a dictionary using a binary search tree. Extends the provided BSTDictionaryADT interface.
 
 public class BSTDictionary implements BSTDictionaryADT {
-  BinarySearchTree bst;
+  private BinarySearchTree bst;
 
   // Creates a new binary search tree dictionary.
   public BSTDictionary() {
