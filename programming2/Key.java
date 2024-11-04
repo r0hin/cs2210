@@ -16,6 +16,11 @@ public class Key implements Comparable<Key> {
     return label;
   }
 
+  // Returns the type of the key.
+  public int getType() {
+    return type;
+  }
+
   // Compare labels lexicographically
   public int compareTo(Key other) {
     int labelComparison = this.label.compareTo(other.label);

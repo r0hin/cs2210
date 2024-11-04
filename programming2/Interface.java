@@ -73,7 +73,8 @@ public class Interface {
       try {
         dictionary.put(new Record(new Key(label, type), data));
       } catch (DictionaryException e) {
-        System.err.println(e.getMessage());
+        System.out.println("A record with the given key (" + label + "," + type
+            + ") is already in the ordered dictionary.");
       }
     }
     reader.close();
@@ -151,7 +152,7 @@ public class Interface {
     if (record != null) {
       System.out.println(record.getDataItem());
     } else {
-      System.out.println("The word " + label + " is not in the ordered dictionary.");
+      System.out.println("The word " + label + " is not in the dictionary.");
     }
   }
 
@@ -309,7 +310,7 @@ public class Interface {
       dictionary.remove(new Key(label, type));
     } catch (DictionaryException e) {
       // Catch any exceptions thrown by the dictionary
-      System.out.println(e.getMessage());
+      System.err.println("No record in the ordered dictionary has key (" + label + "," + type + ")");
     }
   }
 
@@ -328,6 +329,7 @@ public class Interface {
         // Add the record to the dictionary
         dictionary.put(new Record(new Key(label, type), data));
       } catch (Exception e) {
+        // Should never happen, but catch any exceptions thrown by the dictionary
         System.out.println("Error adding record: " + e.getMessage());
         return;
       }
@@ -345,6 +347,7 @@ public class Interface {
       return;
     }
     String prefix = tokenizer.nextToken().toLowerCase();
+    Boolean printed = false;
 
     // To list the records without adjusting the dictionary class, I'll use
     // the smallest and successor methods to iterate through the dictionary
@@ -352,28 +355,39 @@ public class Interface {
     Record curr = dictionary.smallest();
     while (curr != null) {
       if (curr.getKey().getLabel().startsWith(prefix)) {
-        System.out.println(curr.getDataItem());
+        if (printed) {
+          System.out.print(", ");
+        }
+        printed = true;
+        System.out.print(curr.getKey().getLabel());
       }
       // Get the next record in the dictionary
       curr = dictionary.successor(curr.getKey());
     }
+    if (printed) {
+      System.out.println();
+    } else {
+      System.out.println("No label attributes in the ordered dictionary start with the prefix " + prefix);
+    }
   }
 
-  // Command: first, print the data item of the smallest key in the dictionary
+  // Command: first, print the attributes of the record with the smallest key in
+  // the dictionary
   private static void firstCommand() {
     Record record = dictionary.smallest();
     if (record != null) {
-      System.out.println(record.getDataItem());
+      System.out.println(record.getKey().getLabel() + "," + record.getKey().getType() + "," + record.getDataItem());
     } else {
       System.out.println("The ordered dictionary is empty.");
     }
   }
 
-  // Command: last, print the data item of the largest key in the dictionary
+  // Command: last, print the attributes of the record with the largest key in
+  // the dictionary
   private static void lastCommand() {
     Record record = dictionary.largest();
     if (record != null) {
-      System.out.println(record.getDataItem());
+      System.out.println(record.getKey().getLabel() + "," + record.getKey().getType() + "," + record.getDataItem());
     } else {
       System.out.println("The ordered dictionary is empty.");
     }
