@@ -1,3 +1,7 @@
+// Graph.java – Rohin Arya CS2210 – Assignment 3
+// This class represents a graph and provides methods to manipulate it.
+
+// Imports for the adjacency list:
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +20,7 @@ public class Graph implements GraphADT {
 		}
 	}
 
+	// Method to add an edge to the graph
 	@Override
 	public void insertEdge(GraphNode nodeu, GraphNode nodev, int type, String label) throws GraphException {
 		// Validate if nodes exist
@@ -36,27 +41,32 @@ public class Graph implements GraphADT {
 		adjList.get(nodev).add(newEdge);
 	}
 
+	// Method to get a node by its name
 	@Override
 	public GraphNode getNode(int u) throws GraphException {
-		// Return the node with the specified name
+		// Search through keySet to find matches
 		for (GraphNode node : adjList.keySet()) {
-			if (node.getName() == u) {
+			if (node.getName() == u) { // == is valid, since names are integers
 				return node;
 			}
 		}
+
 		throw new GraphException("Node does not exist in the graph");
 	}
 
+	// Method to get all edges incident on a node
 	@Override
 	public Iterator<GraphEdge> incidentEdges(GraphNode u) throws GraphException {
 		// Validate if the node exists
 		if (!adjList.containsKey(u)) {
 			throw new GraphException("Node does not exist in the graph");
 		}
+
 		// Return an iterator over the edges connected to the node
 		return adjList.get(u).iterator();
 	}
 
+	// Method to get an edge between two nodes
 	@Override
 	public GraphEdge getEdge(GraphNode u, GraphNode v) throws GraphException {
 		// Validate if both nodes exist
@@ -70,12 +80,15 @@ public class Graph implements GraphADT {
 				return edge;
 			}
 		}
-		return null; // Return null if no edge exists
+
+		// No edge found, return null
+		return null;
 	}
 
+	// Method to check if two nodes are adjacent
 	@Override
 	public boolean areAdjacent(GraphNode u, GraphNode v) throws GraphException {
-		// Check if an edge exists between the two nodes
+		// Check if an edge exists here
 		return getEdge(u, v) != null;
 	}
 }
